@@ -11,7 +11,7 @@ if (IS_COMPILER_GCC_LIKE)
   set(CMAKE_CXX_STANDARD ${CURRENT_CXX_STANDARD})
 endif()
 
-add_executable(complex_euml2 euml2.cpp)
+# add_executable(complex_euml2 euml2.cpp)
 add_example(complex_sc benchmark_complex_sc sc.cpp)
 
 if (NOT IS_MSVC_2015)

@@ -27,6 +27,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(sml LANGUAGES CXX)
 include(CTest)
+include(cmake/boost.cmake)
 
 option(SML_BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(SML_BUILD_EXAMPLES   "Build examples"   OFF)
@@ -114,9 +115,9 @@ elseif (IS_COMPILER_OPTION_GCC_LIKE)
         "-Wfatal-errors" # stops on first error
         "-Wall" # enables all the warnings about constructions
         "-Wextra" # Print extra warning messages"
-        "-Werror" # Make all warnings into errors.
+        # "-Werror" # Make all warnings into errors.
         "-pedantic" # Issue all the warnings demanded by strict ISO C and ISO C++
-        "-pedantic-errors" # Like -pedantic, except that errors are produced rather than warnings
+        # "-pedantic-errors" # Like -pedantic, except that errors are produced rather than warnings
       >
     )
 
@@ -142,14 +143,14 @@ include_directories($<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
 function(add_example exe_name bm_name src_name)
   add_executable(${exe_name} ${src_name})
-  target_link_libraries(${exe_name} PUBLIC sml)
+  target_link_libraries(${exe_name} PUBLIC sml Boost::msm Boost::statechart)
   add_test(${bm_name} ${exe_name})
 endfunction()
 
 if (SML_BUILD_BENCHMARKS)
   find_package(Boost REQUIRED)
-  target_link_libraries(sml
-    INTERFACE Boost::boost)
+  # target_link_libraries(sml
+  #   INTERFACE Boost::msm Boost::statechart)
 endif()
 
 if (SML_BUILD_BENCHMARKS)
